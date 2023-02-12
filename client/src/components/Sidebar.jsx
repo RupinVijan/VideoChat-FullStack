@@ -4,7 +4,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Assignment, Phone, PhoneDisabled } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { SocketContext } from '../Context';
+import { SocketContext, socket } from '../Context';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,9 +38,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Sidebar = ({ children }) => {
-  const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(SocketContext);
+  const { me, callAccepted, name, setName, callEnded, leaveCall, callUser, x, setTest } = useContext(SocketContext);
   const [idToCall, setIdToCall] = useState('');
+
   const classes = useStyles();
+
+  socket.on('callUserAdd', (a) => { console.log(a, 'lsl'); setTest(a); });
 
   return (
     <Container className={classes.container}>
@@ -49,7 +52,7 @@ const Sidebar = ({ children }) => {
           <Grid container className={classes.gridContainer}>
             <Grid item xs={12} md={6} className={classes.padding}>
               <Typography gutterBottom variant="h6">Account Info</Typography>
-              <TextField label="Name" value={name} onChange={(e) => setName(e.target.value)} fullWidth />
+              <TextField label="Name" value={name} onChange={(e) => { x(); setName(e.target.value); }} fullWidth />
               <CopyToClipboard text={me} className={classes.margin}>
                 <Button variant="contained" color="primary" fullWidth startIcon={<Assignment fontSize="large" />}>
                   Copy Your ID
@@ -68,6 +71,9 @@ const Sidebar = ({ children }) => {
                   Call
                 </Button>
               )}
+              <Button variant="contained" color="primary" startIcon={<Phone fontSize="large" />} fullWidth onClick={() => x()} className={classes.margin}>
+                call x
+              </Button>
             </Grid>
           </Grid>
         </form>
