@@ -2,7 +2,7 @@
 	"name": "client",
 	"version": "0.1.0",
 	"private": true,
-	"proxy": "http://43.205.232.242",
+	"proxy": "https://cbc.shram.io",
 	"dependencies": {
 		"@material-ui/core": "^4.11.3",
 		"@material-ui/icons": "^4.11.2",
