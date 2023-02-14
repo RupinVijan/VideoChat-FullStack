@@ -21,12 +21,12 @@ const ContextProvider = ({ children }) => {
   const myVideo = useRef();
   const userVideo = useRef([]);
   const connectionRef = useRef();
-  useEffect(() => {
-    console.log(223);
-    socket.emit('callUserAdd', name);
-    socket.on('callUserAdd', (a) => { console.log(a, 'lsl'); setTest(a); });
-    // return () => socket.off('callUserAdd');
-  }, [socket, name]);
+  // useEffect(() => {
+  //   console.log(223);
+  //   socket.emit('callUserAdd', name);
+  //   socket.on('callUserAdd', (a) => { console.log(a, 'lsl'); setTest(a); });
+  //   // return () => socket.off('callUserAdd');
+  // }, [socket, name]);
   useEffect(() => {
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
@@ -44,12 +44,12 @@ const ContextProvider = ({ children }) => {
   }, []);
 
   const x = () => {
-    const peer = new Peer({ initiator: false, trickle: false, stream });
-    peer.on('signal', (data) => {
-      console.log(data, 'data', name);
-      socket.emit('callUserAdd', name);
-    });
-    socket.on('callUserAdd', (a) => { console.log(a, 'lsl'); setTest(a); });
+    // const peer = new Peer({ initiator: false, trickle: false, stream });
+    // peer.on('signal', (data) => {
+    console.log('data', name);
+    socket.emit('callUserAdd', name);
+    // });
+    socket.on('callUserAdd', (a) => { console.log(a, 'lsls'); setTest(a); });
     console.log(1);
   };
   const answerCall = () => {

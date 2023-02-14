@@ -33,10 +33,13 @@ io.on("connection", (socket) => {
 		console.log({userToCall, from, name, userName} , "callUser")
 		io.to(userToCall).emit("callUser", { signal: signalData, from, name, userName });
 	})
-	socket.on("callUserAdd", (userToCall) => {
+	socket.on("callUserAdd", ({ id, userToCall }) => {
 		console.log(userToCall, "callUserAdd")
-		// io.to(userToCall).emit("callUserAdd", userToCall);
-		socket.emit("callUserAdd", userToCall);
+		let x = [socket.id, id]
+		x.forEach(e => {
+			io.to(e).emit("callUserAdd", userToCall);
+		})
+		// socket.emit("callUserAdd", userToCall);
 
 	})
 

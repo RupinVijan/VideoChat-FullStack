@@ -38,21 +38,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Sidebar = ({ children }) => {
-  const { me, callAccepted, name, setName, callEnded, leaveCall, callUser, x, setTest } = useContext(SocketContext);
+  const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(SocketContext);
   const [idToCall, setIdToCall] = useState('');
+  // const [text, setText] = useState('');
 
   const classes = useStyles();
 
-  socket.on('callUserAdd', (a) => { console.log(a, 'lsl'); setTest(a); });
+  const x = async () => {
+    socket.emit('callUserAdd', { id: idToCall, userToCall: name });
+    socket.on('callUserAdd', (a) => { console.log(a, 'lkl'); });
+  };
 
   return (
     <Container className={classes.container}>
       <Paper elevation={10} className={classes.paper}>
+        {/* <p>{text}</p> */}
         <form className={classes.root} noValidate autoComplete="off">
           <Grid container className={classes.gridContainer}>
             <Grid item xs={12} md={6} className={classes.padding}>
               <Typography gutterBottom variant="h6">Account Info</Typography>
-              <TextField label="Name" value={name} onChange={(e) => { x(); setName(e.target.value); }} fullWidth />
+              <TextField label="Name" value={name} onChange={(e) => { setName(e.target.value); }} fullWidth />
               <CopyToClipboard text={me} className={classes.margin}>
                 <Button variant="contained" color="primary" fullWidth startIcon={<Assignment fontSize="large" />}>
                   Copy Your ID
@@ -71,7 +76,7 @@ const Sidebar = ({ children }) => {
                   Call
                 </Button>
               )}
-              <Button variant="contained" color="primary" startIcon={<Phone fontSize="large" />} fullWidth onClick={() => x()} className={classes.margin}>
+              <Button variant="contained" color="primary" startIcon={<Phone fontSize="large" />} fullWidth onClick={() => { x(); }} className={classes.margin}>
                 call x
               </Button>
             </Grid>
